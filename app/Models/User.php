@@ -7,6 +7,8 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
+use App\Models\Panen;
+use App\Models\DataHarian;
 
 class User extends Authenticatable
 {
@@ -46,5 +48,15 @@ class User extends Authenticatable
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
         ];
+    }
+
+    public function panens()
+    {
+        return $this->hasMany(Panen::class);
+    }
+
+    public function dataHarians()
+    {
+        return $this->hasMany(DataHarian::class);
     }
 }

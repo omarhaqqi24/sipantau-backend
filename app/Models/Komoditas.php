@@ -3,8 +3,26 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use App\Models\Panen;
+use App\Models\DataHarian;
+use App\Models\Pasar;
 
 class Komoditas extends Model
 {
-    //
+    protected $fillable = ['nama_komoditas'];
+
+    public function panens()
+    {
+        return $this->hasMany(Panen::class);
+    }
+
+    public function dataHarians()
+    {
+        return $this->hasMany(DataHarian::class);
+    }
+
+    public function pasars()
+    {
+        return $this->belongsToMany(Pasar::class, 'komoditas_pasar');
+    }
 }
