@@ -3,7 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use App\Models\DataHarian;
+use App\Models\KetersediaanHarian;
 use App\Models\Komoditas;
 
 class Pasar extends Model
@@ -13,9 +13,9 @@ class Pasar extends Model
         'nama_pasar'
     ];
 
-    public function dataHarians()
+    public function ketersediaanHarians()
     {
-        return $this->hasMany(DataHarian::class);  
+        return $this->hasMany(KetersediaanHarian::class);  
     }
 
     public function komoditas()

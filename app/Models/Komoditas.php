@@ -4,7 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use App\Models\Panen;
-use App\Models\DataHarian;
+use App\Models\KetersediaanHarian;
 use App\Models\Pasar;
 
 class Komoditas extends Model
@@ -16,9 +16,9 @@ class Komoditas extends Model
         return $this->hasMany(Panen::class);
     }
 
-    public function dataHarians()
+    public function ketersediaanHarians()
     {
-        return $this->hasMany(DataHarian::class);
+        return $this->hasMany(KetersediaanHarian::class);
     }
 
     public function pasars()

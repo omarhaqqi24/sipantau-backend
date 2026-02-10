@@ -8,7 +8,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 use App\Models\Panen;
-use App\Models\DataHarian;
+use App\Models\KetersediaanHarian;
 
 class User extends Authenticatable
 {
@@ -55,8 +55,8 @@ class User extends Authenticatable
         return $this->hasMany(Panen::class);
     }
 
-    public function dataHarians()
+    public function ketersediaanHarians()
     {
-        return $this->hasMany(DataHarian::class);
+        return $this->hasMany(KetersediaanHarian::class);
     }
 }

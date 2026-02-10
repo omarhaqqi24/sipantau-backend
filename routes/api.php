@@ -1,10 +1,13 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\HargaPasarHarianController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\KomoditasController;
 use App\Http\Controllers\KetersediaanHarianController;
+use App\Http\Controllers\PanenController;
+use App\Http\Controllers\PasarController;
 
 // Route::get('/user', function (Request $request) {
 //     return $request->user();
@@ -25,7 +28,19 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/komoditas', [KomoditasController::class,'index']);
     Route::post('/komoditas', [KomoditasController::class,'store']);
 
+    // Pasar
+    Route::get('/pasar', [PasarController::class, 'index']);
+    Route::post('/pasar', [PasarController::class, 'store']);
+
     // Ketersediaan Harian
     Route::get('/ketersediaan', [KetersediaanHarianController::class,'index']);
     Route::post('/ketersediaan', [KetersediaanHarianController::class,'store']);
+
+    // Panen
+    Route::get('/panen', [PanenController::class, 'index']);
+    Route::post('/panen', [PanenController::class, 'store']);
+
+    // Harga Pasar Harian
+    Route::get('/harga-pasar', [HargaPasarHarianController::class, 'index']);
+    Route::post('/harga-pasar', [HargaPasarHarianController::class, 'store']);
 });

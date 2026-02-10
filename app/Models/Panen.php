@@ -12,7 +12,6 @@ class Panen extends Model
     protected $fillable = [
         'perkiraan_tonase',
         'tanggal_prakiraan_panen',
-        'daerah_produsen',
         'komoditas_id',
         'user_id'
     ];

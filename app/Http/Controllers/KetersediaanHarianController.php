@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\KetersediaanHarianResource;
 use App\Traits\ApiResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -15,16 +16,12 @@ class KetersediaanHarianController extends Controller
     public function index()
     {
         try {
-            $ketersediaan_harian = KetersediaanHarian::select(
-                'komoditas_id',
-                'tanggal',
-                'ketersediaan_harian',
-                'kebutuhan_harian',
-                'neraca_harian',
-                'user_id',
-            )->get();
+            $ketersediaan_harian = KetersediaanHarian::with([
+                "komoditas:id,nama_komoditas",
+                "user:id,name"
+            ])->get();
 
-            return $this->success($ketersediaan_harian, 'Ketersediaan Harian fetched successfully');
+            return $this->success(KetersediaanHarianResource::collection($ketersediaan_harian), 'Ketersediaan Harian fetched successfully');
         } catch (Throwable $e) {
             return $this->error($e->getMessage());
         }
@@ -44,24 +41,37 @@ class KetersediaanHarianController extends Controller
         ]);
 
         try {
-            DB::transaction(function () use ($request, $validated) {
-                foreach ($validated['items'] as $item) {
-                    KetersediaanHarian::updateOrCreate(
-                    [
-                        'komoditas_id'=> $validated['komoditas_id'],
-                        'tanggal' => $item['tanggal'],
-                    ],
-                    [                        
-                        'user_id'=> $request->user()->id,
+            $saveIds = [];
 
-                        'ketersediaan_harian' => $item['ketersediaan_harian'],
-                        'kebutuhan_harian' => $item['kebutuhan_harian'],
-                        'neraca_harian' => $item['neraca_harian'],
-                    ]);
+            DB::transaction(function () use ($request, &$saveIds, $validated) {
+                foreach ($validated['items'] as $item) {
+                    $record = KetersediaanHarian::updateOrCreate(
+                        [
+                            'komoditas_id'=> $validated['komoditas_id'],
+                            'tanggal' => $item['tanggal'],
+                        ],
+                        [                        
+                            'user_id'=> $request->user()->id,
+
+                            'ketersediaan_harian' => $item['ketersediaan_harian'],
+                            'kebutuhan_harian' => $item['kebutuhan_harian'],
+                            'neraca_harian' => $item['neraca_harian'],
+                        ]
+                    );
+
+                    $saveIds[] = $record->id;
                 }
             });
 
-            return $this->success(null, 'Ketersediaan Harian created sucessfully', 201);
+            $records = KetersediaanHarian::with([
+                'komoditas:id,nama_komoditas',
+                'user:id,name'
+            ])->whereIn('id', $saveIds)->get();
+
+            return $this->success(
+                KetersediaanHarianResource::collection($records),
+                'Ketersediaan Harian created sucessfully',
+                201);
         } catch (Throwable $e) {
             return $this->error($e->getMessage());
         }
