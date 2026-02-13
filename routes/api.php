@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\HargaPasarHarianController;
+use App\Http\Controllers\HargaPetaniHarianController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\KomoditasController;
@@ -43,4 +44,8 @@ Route::middleware('auth:sanctum')->group(function () {
     // Harga Pasar Harian
     Route::get('/harga-pasar', [HargaPasarHarianController::class, 'index']);
     Route::post('/harga-pasar', [HargaPasarHarianController::class, 'store']);
+
+    // Harga Penati Harian
+    Route::get('/harga-petani', [HargaPetaniHarianController::class, 'index']);
+    Route::post('/harga-petani', [HargaPetaniHarianController::class, 'store']);
 });
